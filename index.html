@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>home-manager-helper</title>
+<!-- 2017-11-01 Wed 14:58 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Dustin Lacewell" />
+<meta  name="description" content="A literate programming style exposition of my Emacs configuration"
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="https://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">home-manager-helper</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Quickstart</a>
+<ul>
+<li><a href="#sec-1-1">Install Nix</a></li>
+<li><a href="#sec-1-2">Install home-manager-helper</a></li>
+<li><a href="#sec-1-3">First-run Bootstrap</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">Using hm</a></li>
+<li><a href="#sec-3">Hello World!</a></li>
+<li><a href="#sec-4">Protect your Secrets</a></li>
+<li><a href="#sec-5">Plugins</a></li>
+<li><a href="#sec-6">Envfiles</a></li>
+<li><a href="#sec-7">Expression Sources</a>
+<ul>
+<li><a href="#sec-7-1">① Module function</a></li>
+<li><a href="#sec-7-2">② Import plugins.nix</a></li>
+<li><a href="#sec-7-3">③ Add plugins to imports</a></li>
+<li><a href="#sec-7-4">④ Install Emacs</a></li>
+<li><a href="#sec-7-5">⑤ Build init.org</a></li>
+<li><a href="#sec-7-6">⑥ Export init.org</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="https://github.com/rycee/home-manager">home-manager</a> is an excelent <a href="https://nixos.org/nix/">Nix</a> based dotfile management system. Not only can
+it manage symlinks in your home-directory, as a package manager, it can also
+install the related software. Win!
+</p>
+
+<p>
+This project provides a wrapper around home-manager that makes it a little
+easier to use.
+</p>
+
+<p>
+My personal configuration used with home-manager-helper can be found <a href="https://github.com/dustinlacewell/dotfiles">here</a>.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Quickstart</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Install Nix</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Install the Nix package manager to your workstation:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">curl https://nixos.org/nix/install | sh
+</pre>
+</div>
+
+<p>
+This will create <code>/nix</code> as well as some system-wide profile scripts which will
+integrate your shell with Nix.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Install home-manager-helper</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Use <code>nix-env</code> to install the package straight from GitHub into your Nix profile:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">#&gt; nix-env -i -f https://github.com/dustinlacewell/home-manager-helper/archive/master.tar.gz
+
+downloading ‘https://github.com/dustinlacewell/dotfiles/archive/master.tar.gz’...
+unpacking ‘https://github.com/dustinlacewell/dotfiles/archive/master.tar.gz’...
+installing ‘home-manager-helper’
+building path(s) ‘/nix/store/h1bb5hybayvkzbhg49kadd2s9irxrbxh-user-environment’
+created 1 symlinks in user environment
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">First-run Bootstrap</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+The <code>hm</code> command is now available. On the first run, it will install
+<code>home-manager</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">#&gt; hm
+/Users/dustinlacewell/.nix-profile/bin/hm:hash:67: no such command: home-manager
+Home-manager was not found. It will now be installed.
+Press any key to continue...
+
+downloading ‘https://github.com/rycee/home-manager/archive/master.tar.gz’... [0/0 KiB, 0.0 KiB/s]
+unpacking ‘https://github.com/rycee/home-manager/archive/master.tar.gz’...
+installing ‘home-manager’
+these derivations will be built:
+  /nix/store/c8an7rvww7ykqh7nnc8cdzgnlgwgflkz-home-manager.drv
+building path(s) ‘/nix/store/h4gjwiwqqm4db7qf0rpqr6711bjcdkli-home-manager’
+installing
+install: creating directory '/nix/store/h4gjwiwqqm4db7qf0rpqr6711bjcdkli-home-manager'
+install: creating directory '/nix/store/h4gjwiwqqm4db7qf0rpqr6711bjcdkli-home-manager/bin'
+'/nix/store/agb74b8gmwcfwlq1nk708vi6jrkvviwc-home-manager' -&gt; '/nix/store/h4gjwiwqqm4db7qf0rpqr6711bjcdkli-home-manager/bin/home-manager'
+building path(s) ‘/nix/store/wrfwl5rh0n3934wyj8pq7s79xc74a5df-user-environment’
+created 3 symlinks in user environment
+
+Bootstrap successful!
+</pre>
+</div>
+
+<p>
+Woo.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Using hm</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<code>hm</code> is super simple. It has two commands <code>build</code> and <code>switch</code>. Both take a
+single argument, the name of an envfile.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">usage: hm &lt;command&gt; &lt;env&gt;
+
+Commands:
+build  - build env to ./result/
+switch - build env to ~/
+
+Environments:
+Loads ~/.home-manager/envs/&lt;env&gt;.nix
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Hello World!</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+During the bootstrap, some example files were installed to your home directory:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">#&gt; tree ~/.home-manager
+
+├── envs
+│   ├── example.nix
+├── hello
+│   ├── default.nix
+│   └── hello.conf
+</pre>
+</div>
+
+<p>
+Go ahead and build a dry-run:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">#&gt; hm build example
+/nix/store/fv3j0cn5np78wdl4bybfnb52mvqrrwjk-home-manager-generation
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-text">#&gt; tree result/
+
+result/
+├── activate
+├── home-files -&gt; /nix/store/cv68n6291xzdwqz3f7whlp3qg5vzm60g-home-manager-files
+└── home-path -&gt; /nix/store/sq9x4x0k5va4fwr7q91wk7w74fp8jv1k-home-manager-path
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-text">ls -la result/home-files
+lrwxr-xr-x  1 root  wheel  62 Dec 31  1969 result/home-files -&gt; /nix/store/cv68n6291xzdwqz3f7whlp3qg5vzm60g-home-manager-files
+</pre>
+</div>
+
+<p>
+Now go ahead and actually install these files to your home directory:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">#&gt; hm switch example
+*** Downloading ‘https://cache.nixos.org/nar/0p2lrqwwy78m9i60zz4gnhbkhr461s39d75wq3zk901kcl8cw5ck.nar.xz’ (signed by ‘cache.nixos.org-1’) to ‘/nix/store/31hsbhw2y0x82yzim18rff4pvbp410f2-stdenv-darwin’...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+				 Dload  Upload   Total   Spent    Left  Speed
+100  9348  100  9348    0     0   9348      0  0:00:01 --:--:--  0:00:01 76000
+
+Starting home manager activation
+Activating checkLinkTargets
+Activating writeBoundary
+Activating installPackages
+installing ‘home-manager-path’
+building path(s) ‘/nix/store/b1ag2rsy281525xsg3rka0v3j7hn1k6v-user-environment’
+created 26 symlinks in user environment
+Activating linkGeneration
+No change so reusing latest profile generation 168
+Cleaning up orphan links from /Users/dustinlacewell
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-text">#&gt; cat ~/.hello.conf
+
+This doesn't do anything!
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-text">#&gt; hello
+
+Hello, World!
+</pre>
+</div>
+
+<p>
+Woo.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Protect your Secrets</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+So that you don't need to keep secrets in your configuration <code>hm</code> will source
+<code>$HOME/.secrets</code>. This file should export any environment variables that you
+utilize while building your configuration.
+</p>
+
+<p>
+This file should probably not directly contain your secrets. We recommend
+instead, utilizing a a tool to manage your secrets. The tool can be used to
+interpolate secret values when the file is sourced. Some options might be:
+</p>
+
+<ul class="org-ul">
+<li>GNU Pass: <a href="https://www.passwordstore.org/">https://www.passwordstore.org/</a>
+</li>
+<li>Mozilla SOPS: <a href="https://github.com/mozilla/sops">https://github.com/mozilla/sops</a>
+</li>
+<li>LastPass CLI: <a href="https://github.com/lastpass/lastpass-cli">https://github.com/lastpass/lastpass-cli</a>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Plugins</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Plugins are defined in <code>$HOME/.home-manager/plugins.nix</code>.
+</p>
+
+<p>
+This expression contains a simple attrset. Each attribute is the name of a
+plugin. Its value should be a NixOS package. The package can be fetched
+dynamically using any of the following helpers:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">pkgs.fetchFromBitbucket  pkgs.fetchFromGitHub
+pkgs.fetchFromGitLab     pkgs.fetchFromRepoOrCz
+pkgs.fetchFromSavannah   pkgs.fetchHex
+pkgs.fetchMavenArtifact  pkgs.fetchNuGet
+pkgs.fetchRepoProject    pkgs.fetchadc
+pkgs.fetchbower          pkgs.fetchbzr
+pkgs.fetchcvs            pkgs.fetchdarcs
+pkgs.fetchegg            pkgs.fetchfossil
+pkgs.fetchgit            pkgs.fetchgitLocal
+pkgs.fetchgitPrivate     pkgs.fetchgitrevision
+pkgs.fetchgx             pkgs.fetchhg
+pkgs.fetchmail           pkgs.fetchmtn
+pkgs.fetchpatch          pkgs.fetchs3
+pkgs.fetchsvn            pkgs.fetchsvnrevision
+pkgs.fetchsvnssh         pkgs.fetchurl
+pkgs.fetchurlBoot        pkgs.fetchzip
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Envfiles</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Envfiles are a top-level Nix expressions that live in <code>$HOME/.home-manager/envs/</code>.
+</p>
+
+<p>
+Their job is to import the other expressions which make up the environment. You
+can have multiple envfiles, one for each unique environment. Take look at
+<code>envs/osx.nix</code> to see how I write mine:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-nix">{
+  imports = [
+    ../src/ssh
+    ../src/emacs
+    ../src/zsh
+    ../src/httpie
+    ../src/aws
+    ../src/fasd
+  ];
+}
+</pre>
+</div>
+
+<p>
+The expression is an attrset. The only attribute is <code>imports</code> set to a list of
+paths of other expressions to load.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Expression Sources</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Expression Sources are Nix expressions that actually make up your
+configuration. I organize these underneath <code>$HOME/.home-manager/src/</code>. For
+each tool I typically create a folder with a <code>default.nix</code> and any data files.
+</p>
+
+<p>
+This is <code>src/emacs/default.nix</code> at the time of this writing:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-nix">{ pkgs, ... }: ①
+
+let
+  plugins = import &lt;plugins&gt;; ②
+
+in {
+  imports = [ ③
+    plugins.org-build
+    plugins.org-export
+  ];
+
+  programs.emacs = { enable = true; }; ④
+
+  home.file.".emacs.d/init.el".source = pkgs.org-build { ⑤
+    source = ./init.org;
+  };
+
+  home.file.".emacs.d/init.html".source = pkgs.org-export { ⑥
+    source = ./init.org;
+    user = "dustinlacewell";
+    repo = "emacs.d";
+  };
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1">① Module function</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+The module is expressed as a function that accepts <code>pkgs</code> and returns an attrset.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2">② Import plugins.nix</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+The expression at <code>$HOME/.home-manager/plugins.nix</code> is imported so that we
+can refer to the plugin packages.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3">③ Add plugins to imports</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+One of the attributes of our module's returned attrset is <code>imports</code>. This takes
+a list of modules that should be merged by the module system. This has the
+effect of making available any Options declared or defined by the plugins. It
+also makes any package overrides provided by the plugins available under
+<code>pkgs</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7-4" class="outline-3">
+<h3 id="sec-7-4">④ Install Emacs</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+This line declares the <code>programs.emacs.enable</code> option to be true. This will
+ensure Emacs gets installed the Nix profile.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7-5" class="outline-3">
+<h3 id="sec-7-5">⑤ Build init.org</h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+Emacs configuration is done with Emacs-Lisp. But I choose to write my
+configuration as an Orgmode document. This section calls <code>pkgs.org-build</code>
+function which builds an Orgmode document into Emacs-Lisp. This returns the
+path of the built <code>.el</code> file in the store. We assign that to
+<code>home.file.".emacs.d/init.el".source</code> which will cause the file to be symlinked
+into our home directory.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7-6" class="outline-3">
+<h3 id="sec-7-6">⑥ Export init.org</h3>
+<div class="outline-text-3" id="text-7-6">
+<p>
+Similar to ⑤ this calls a plugin function. This time it is <code>pkgs.org-export</code>
+which builds <code>init.org</code> as HTML. This line writes out the HTML file to
+<code>.emacs.d/init.html</code> but <code>org-export</code> will also publish the HTML file to
+<a href="http://dustinlacewell.github.com/emacs.d/">http://dustinlacewell.github.com/emacs.d/</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Dustin Lacewell</p>
+<p class="date">Created: 2017-11-01 Wed 14:58</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
