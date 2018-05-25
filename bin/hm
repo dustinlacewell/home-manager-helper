@@ -1,0 +1,66 @@
+#!/usr/bin/env zsh
+
+NIXCFG_PATH="${NIXCFG_PATH-/nixcfg/home/users}"
+NIXCFG_SECRETS="${NIXCFG_SECRETS-/nixcfg/home/secrets}"
+
+# colors
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+function wait-any-key {
+    echo 'Press any key to continue...'; read -k1 -s
+    echo ""
+}
+
+function quit-with-help {
+    cat << EOF
+usage: hm <command> <env>
+
+Commands:
+build  - build env to ./result/
+switch - build env to ~/
+
+Environments:
+Loads $NIXCFG_PATH/<env>.nix
+
+Secrets:
+Loads $NIXCFG_SECRETS
+
+EOF
+
+    exit 0
+}
+
+function execute {
+    # No argument, show help
+    if [[ $# -ne 1 ]] ; then
+        quit-with-help;
+    fi
+
+    local envfile="$NIXCFG_PATH/$1.nix"
+
+    # envfile doesn't exist, complain
+    if [ ! -e $envfile ]; then
+        echo "Envfile not found: $envfile"
+        exit 0
+    fi
+
+    # pull in user's secrets
+    source "$NIXCFG_SECRETS"
+
+    @home-manager@ -v -f $envfile $command
+}
+
+# no arguments, show help
+if [[ $# -eq 0 ]] ; then
+    quit-with-help
+fi
+
+local command="$1"; shift
+
+case "$command" in
+    build)  execute "$@";;
+    switch) execute "$@";;
+    *) echo -e "No such '${RED}$command${NC}' command."; usage ;;
+esac
+

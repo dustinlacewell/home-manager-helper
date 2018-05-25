@@ -1,0 +1,106 @@
+#+TITLE: home-manager-helper
+#+AUTHOR: Dustin Lacewell
+#+email: dlacewell at gmail dot com
+#+DESCRIPTION: A literate programming style exposition of my Emacs configuration
+#+LANGUAGE: en
+#+STARTUP: overview indent align
+#+BABEL: :cache no
+#+OPTIONS: ^:nil num:nil tags:nil
+#+SETUPFILE: assets/readtheorg.setup
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="https://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="https://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+
+
+[[https://github.com/rycee/home-manager][home-manager]] is an excelent [[https://nixos.org/nix/][Nix]] based dotfile management system. Not only can
+it manage symlinks in your home-directory, as a package manager, it can also
+install the related software. Win!
+
+home-manager-helper provides an insecure, yet convinent way to expose secrets to
+your build expressions through environment variables.
+
+My personal configuration used with home-manager-helper can be found [[https://github.com/dustinlacewell/dotfiles][here]].
+
+** Quickstart
+*** Install Nix
+
+*If you're on NixOS, skip this step!*
+
+Install the Nix package manager to your workstation:
+
+#+BEGIN_SRC shell
+  curl https://nixos.org/nix/install | sh
+#+END_SRC
+
+This will create ~/nix~ as well as some system-wide profile scripts which will
+integrate your shell with Nix.
+
+*** Install home-manager-helper
+
+Use ~nix-env~ to install the package straight from GitHub into your Nix profile:
+
+#+BEGIN_SRC shell
+  #> nix-env -i -f https://github.com/dustinlacewell/home-manager-helper/archive/master.tar.gz
+
+  downloading ‘https://github.com/dustinlacewell/dotfiles/archive/master.tar.gz’...
+  unpacking ‘https://github.com/dustinlacewell/dotfiles/archive/master.tar.gz’...
+  installing ‘home-manager-helper’
+  building path(s) ‘/nix/store/h1bb5hybayvkzbhg49kadd2s9irxrbxh-user-environment’
+  created 1 symlinks in user environment
+#+END_SRC
+
+** Using hm
+
+~hm~ is super simple. It has two commands ~build~ and ~switch~. Both take a
+single argument, the name of an envfile.
+
+#+BEGIN_SRC text
+usage: hm <command> <env>
+
+Commands:
+build  - build env to ./result/
+switch - build env to ~/
+
+Environments:
+Loads /nixcfg/home/users/<env>.nix
+
+Secrets:
+Loads /nixcfg/home/secrets
+#+END_SRC
+
+** Protect your Secrets
+
+So that you don't need to keep secrets in your configuration ~hm~ will source
+~$NIXCFG_SECRETS~. This file should export any environment variables that you utilize
+while building your configuration.
+
+This file should probably not directly contain your secrets. We recommend
+instead, utilizing a a tool to manage your secrets. The tool can be used to
+interpolate secret values when the file is sourced. Some options might be:
+
+  - GNU Pass: https://www.passwordstore.org/
+  - Mozilla SOPS: https://github.com/mozilla/sops
+  - LastPass CLI: https://github.com/lastpass/lastpass-cli
+
+** Envfiles
+Envfiles are a top-level Nix expressions that live in ~$NIXCFG_PATH~.
+
+Their job is to import the other expressions which make up the environment. You
+can have multiple envfiles, one for each unique environment.
+
+#+BEGIN_SRC nix
+  {
+    imports = [
+      ../modules/linux/ssh
+      ../modules/linux/emacs
+      ../modules/linux/zsh
+    ];
+  }
+#+END_SRC
+
+The expression is an attrset. Consult the home-manager documentation for how to write
+modules.
+
