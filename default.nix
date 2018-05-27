@@ -5,8 +5,9 @@ pkgs.stdenv.mkDerivation {
   phases = [ "installPhase" ];
   buildInputs = [ pkgs.home-manager ];
   installPhase = ''
-    install -v -D -m755 ${./bin/hm} $out/bin/hm
-    substituteInPlace $out/bin/hm --subst-var-by home-manager ${pkgs.home-manager}/bin/home-manager
+    mkdir -p $out/bin
+    substitute ${./bin/hm} $out/bin/hm --replace @homeManager@ ${pkgs.home-manager}/bin/home-manager
+    cat "$out/bin/hm"
   '';
 
   meta = with pkgs.stdenv.lib; {
