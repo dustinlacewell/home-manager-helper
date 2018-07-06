@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-NIXCFG_PATH="${NIXCFG_PATH-/nixcfg/home/users}"
-NIXCFG_SECRETS="${NIXCFG_SECRETS-/nixcfg/home/secrets}"
+NIXCFG_PATH="${NIXCFG_PATH-/nixcfg/hosts}"
+NIXCFG_SECRETS="${NIXCFG_SECRETS-/nixcfg/external/private/secrets}"
 
 # colors
 RED='\033[0;31m'
@@ -21,7 +21,7 @@ build  - build env to ./result/
 switch - build env to ~/
 
 Environments:
-Loads $NIXCFG_PATH/<env>.nix
+Loads $NIXCFG_PATH/<env>/home.nix
 
 Secrets:
 Loads $NIXCFG_SECRETS
@@ -37,18 +37,18 @@ function execute {
         quit-with-help;
     fi
 
-    local envfile="$NIXCFG_PATH/$1.nix"
+    local expr="$NIXCFG_PATH/$1/home.nix"
 
-    # envfile doesn't exist, complain
-    if [ ! -e $envfile ]; then
-        echo "Envfile not found: $envfile"
+    # expression doesn't exist, complain
+    if [ ! -e $expr ]; then
+        echo "Expreesion not found: $expr"
         exit 0
     fi
 
     # pull in user's secrets
     source "$NIXCFG_SECRETS"
 
-    @home-manager@ -v -f $envfile $command
+    @homeManager@ -v -f $expr $command
 }
 
 # no arguments, show help
