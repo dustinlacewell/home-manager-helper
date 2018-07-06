@@ -6,7 +6,7 @@ pkgs.stdenv.mkDerivation {
   buildInputs = [ pkgs.home-manager ];
   installPhase = ''
     mkdir -p $out/bin
-    substitute ${./bin/hm} $out/bin/hm --replace @homeManager@ ${pkgs.home-manager}/bin/home-manager
+    substitute ${./bin/hm} $out/bin/hm --subst-var-by homeManager ${pkgs.home-manager}/bin/home-manager
     chmod +x $out/bin/hm
   '';
 
